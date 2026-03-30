@@ -9,7 +9,6 @@ def get_env(key):
 load_dotenv()
 
 client = OpenAI(
-    client = OpenAI(
     api_key=get_env("API_KEY"),
     base_url="https://api.deepseek.com"
 )
