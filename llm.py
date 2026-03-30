@@ -2,7 +2,6 @@ import os
 from openai import OpenAI
 from dotenv import load_dotenv
 import streamlit as st
-import os
 
 def get_env(key):
     return st.secrets.get(key) or os.getenv(key)
@@ -10,8 +9,8 @@ def get_env(key):
 load_dotenv()
 
 client = OpenAI(
-    API_KEY = get_env("API_KEY")
-    LINEAR_API_KEY = get_env("LINEAR_API_KEY"),
+    client = OpenAI(
+    api_key=get_env("API_KEY"),
     base_url="https://api.deepseek.com"
 )
 

@@ -4,7 +4,6 @@ import re
 from dotenv import load_dotenv
 from difflib import SequenceMatcher
 import streamlit as st
-import os
 
 def get_env(key):
     return st.secrets.get(key) or os.getenv(key)
@@ -37,18 +36,13 @@ def map_priority(priority):
 
 
 # ------------------------
-# TEXT HELPERS (🔥 FIX)
+# TEXT HELPERS
 # ------------------------
 def clean_title(text):
     text = text.lower().strip()
 
-    # remove prefixes like "REQ:", "US:", "TC:"
     text = re.sub(r"^(req|us|tc)\s*:\s*", "", text)
-
-    # remove special chars (optional but strong)
     text = re.sub(r"[^a-z0-9 ]", "", text)
-
-    # normalize spaces
     text = re.sub(r"\s+", " ", text)
 
     return text.strip()
@@ -81,7 +75,7 @@ def get_existing_issues():
     res = requests.post(
         URL,
         json={"query": query},
-        headers={"Authorization": API_KEY}
+        headers={"Authorization": LINEAR_API_KEY}  # ✅ FIX
     )
 
     data = res.json()
@@ -94,7 +88,7 @@ def get_existing_issues():
 
 
 # ------------------------
-# DUPLICATE DETECTION (🔥 FIXED)
+# DUPLICATE DETECTION
 # ------------------------
 def find_duplicates(new_title, existing):
     results = []
@@ -105,7 +99,6 @@ def find_duplicates(new_title, existing):
         title = issue.get("title", "")
         title_norm = normalize(title)
 
-        # 🔴 IDENTICAL (now really correct)
         if new_norm == title_norm:
             results.append({
                 "type": "identical",
@@ -115,7 +108,6 @@ def find_duplicates(new_title, existing):
             })
             continue
 
-        # 🟡 SIMILAR
         score = similarity(new_norm, title_norm)
 
         if score > 0.75:
@@ -154,7 +146,7 @@ def get_linear_meta():
     res = requests.post(
         URL,
         json={"query": query},
-        headers={"Authorization": API_KEY}
+        headers={"Authorization": LINEAR_API_KEY}  # ✅ FIX
     )
 
     data = res.json()
@@ -219,7 +211,7 @@ def create_issue(title, description, priority, label_key, parent_id=None):
     res = requests.post(
         URL,
         json={"query": query, "variables": variables},
-        headers={"Authorization": API_KEY}
+        headers={"Authorization": LINEAR_API_KEY}  # ✅ FIX
     )
 
     data = res.json()
