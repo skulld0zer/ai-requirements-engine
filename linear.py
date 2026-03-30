@@ -3,10 +3,16 @@ import requests
 import re
 from dotenv import load_dotenv
 from difflib import SequenceMatcher
+import streamlit as st
+import os
+
+def get_env(key):
+    return st.secrets.get(key) or os.getenv(key)
 
 load_dotenv()
 
-API_KEY = os.getenv("LINEAR_API_KEY")
+API_KEY = get_env("API_KEY")
+LINEAR_API_KEY = get_env("LINEAR_API_KEY")
 URL = "https://api.linear.app/graphql"
 TEAM_ID = "195c1904-01e4-44ce-9c74-1bc5825c1770"
 
