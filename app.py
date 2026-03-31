@@ -23,45 +23,19 @@ st.title("AI Requirements Engine")
 user_input = st.text_area("Enter requirements:")
 
 
-# STYLE (force light theme + custom button styling)
+# STYLE (only custom button styling, no theme override!)
 st.markdown("""
 <style>
-
-/* Force light theme */
-html, body, [class*="css"] {
-    background-color: #ffffff !important;
-    color: #111111 !important;
-}
-
-/* Main container */
-section.main {
-    background-color: #ffffff !important;
-}
-
-/* Inputs */
-textarea, input {
-    background-color: #f8f9fa !important;
-    color: #111111 !important;
-    border-radius: 6px !important;
-}
-
-/* Expanders */
-div[data-testid="stExpander"] {
-    background-color: #f8f9fa !important;
-    border-radius: 8px !important;
-}
-
-/* Secondary buttons */
-button {
-    background-color: #e9ecef !important;
-    color: #111111 !important;
-    border-radius: 6px !important;
-}
 
 /* Primary button */
 div[data-testid="stButton"] button[kind="primary"] {
     background-color: #d32f2f !important;
     color: white !important;
+    border-radius: 6px !important;
+}
+
+/* Optional subtle input rounding */
+textarea, input {
     border-radius: 6px !important;
 }
 
@@ -233,7 +207,6 @@ if st.session_state["structured"]:
 
         st.markdown("---")
 
-        # REQUIREMENT WITH DELETE
         col1, col2 = st.columns([10,1])
 
         with col1:
@@ -269,7 +242,6 @@ if st.session_state["structured"]:
             else:
                 r["decision"] = st.radio("Action", ["create", "merge", "discard"], key=f"req_dec_{i}_{r['uid']}")
 
-        # USER STORIES WITH DELETE
         for j, us_block in enumerate(block["user_stories"]):
             us = us_block["user_story"]
 
@@ -286,7 +258,6 @@ if st.session_state["structured"]:
                     block["user_stories"].pop(j)
                     st.rerun()
 
-        # TEST CASES WITH DELETE
         for k, tc in enumerate(block["test_cases"]):
 
             st.markdown("#### Test Case")
